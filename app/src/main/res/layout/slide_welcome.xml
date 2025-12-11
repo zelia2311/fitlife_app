@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp">
+
+    <ImageView
+        android:src="@android:drawable/ic_dialog_info"
+        android:layout_width="160dp"
+        android:layout_height="160dp" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to FitLife"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#1D2A44"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Track, train, and eat smart."
+        android:textSize="16sp"
+        android:textColor="#566073"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"/>
+
+</LinearLayout>

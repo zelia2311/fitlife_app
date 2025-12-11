@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- APP NAME -->
+    <string name="app_name">FitLife</string>
+
+    <!-- MEAL LABELS -->
+    <string name="meal_image">Meal image</string>
+    <string name="meal_oat_fruit">Oatmeal &amp; Fruit</string>
+    <string name="meal_high_fiber_low_sugar">High fiber, low sugar</string>
+    <string name="meal_320_kcal">320 kcal</string>
+
+    <!-- BMI -->
+    <string name="invalid_input">Invalid input</string>
+
+    <!-- LOGIN PAGE -->
+    <string name="welcome_back">Welcome back, let’s get moving!</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="login">Login</string>
+    <string name="no_account_register">Don't have an account? Register</string>
+
+    <!-- ONBOARDING TEXT -->
+    <string name="onboard_title_1">Home Calculator</string>
+    <string name="onboard_subtitle_1">Usually for you, an ideal healthy formula.</string>
+
+    <string name="onboard_title_2">Pantau Kesehatan Anda</string>
+    <string name="onboard_subtitle_2">Lacak BMI, atur latihan, dan pilih menu sehat setiap hari.</string>
+
+    <string name="onboard_title_3">Mulai Perjalanan Sehatmu</string>
+    <string name="onboard_subtitle_3">Aplikasi FitLife siap mendampingi Anda dengan fitur lengkap dan modern.</string>
+
+    <string name="next">Next</string>
+    <string name="start_now">Mulai Sekarang</string>
+
+</resources>

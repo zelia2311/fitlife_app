@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="72dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Background circle -->
+    <path
+        android:fillColor="#FCE8D5"
+        android:pathData="M12,2a10,10 0,1 1,-10 10A10,10 0,0 1,12 2z"/>
+
+    <!-- Simple plate/food icon -->
+    <path
+        android:fillColor="#1D2A44"
+        android:pathData="M7,11h10v2H7zM9,8h2v3H9zM13,8h2v3h-2z"/>
+</vector>
