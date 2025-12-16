@@ -17,7 +17,7 @@ class HabitAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitViewHolder {
         val view = LayoutInflater.from(context)
-            .inflate(R.layout.habit, parent, false)  // layout itemmu
+            .inflate(R.layout.item_habit, parent, false)  // layout itemmu
         return HabitViewHolder(view)
     }
 

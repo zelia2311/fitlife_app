@@ -3,12 +3,6 @@ package com.example.fitlifeapplication.data
 import androidx.annotation.ColorRes
 import com.example.fitlifeapplication.R
 
-enum class MuscleGroup {
-    CHEST,
-    SHOULDERS,
-    // Add other muscle groups here
-}
-
 data class RecoveryState(
     val muscleGroup: MuscleGroup,
     val percentage: Int,

@@ -4,7 +4,7 @@ import android.content.Context
 
 class MealRepository(context: Context) {
 
-    private val mealDao = AppDatabase.getInstance(context).mealDao()
+    private val mealDao = AppDatabase.getDatabase(context).mealDao()
 
     suspend fun getMealSuggestions(bmiCategory: String): List<Meal> {
         ensureInitialDataPopulated()
@@ -51,5 +51,17 @@ class MealRepository(context: Context) {
             Meal(name="Tahu Telur Saus Kacang", description="Tahu dan telur goreng dengan saus kacang encer.", calories=350, portion="1 Piring", category="Obesitas", imagePlaceholder="img_tahu_telur"),
             Meal(name="Sop Iga Sapi Bening", description="Sop iga dengan kuah kaldu bening, wortel, dan kentang.", calories=420, portion="1 Mangkok", category="Obesitas", imagePlaceholder="img_sop_iga")
         )
+    }
+    companion object {
+        @Volatile
+        private var INSTANCE: MealRepository? = null
+
+        fun getInstance(context: Context): MealRepository {
+            return INSTANCE ?: synchronized(this) {
+                val instance = MealRepository(context)
+                INSTANCE = instance
+                instance
+            }
+        }
     }
 }

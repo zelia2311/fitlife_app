@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.fitlifeapplication.ui.onboarding.OnboardingActivity
 
 class SplashActivity : AppCompatActivity() {
 

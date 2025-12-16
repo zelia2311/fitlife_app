@@ -6,67 +6,49 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
-import com.example.fitlifeapplication.ui.bmi.BmiActivity
-import com.example.fitlifeapplication.ui.workout.WorkoutPlanActivity
-import com.example.fitlifeapplication.ui.tracker.HabitTrackerFragment
+import androidx.navigation.fragment.findNavController
+import com.example.fitlifeapplication.databinding.FragmentHomeBinding
+import com.example.fitlifeapplication.BmiActivity
+import com.example.fitlifeapplication.WorkoutPlanActivity
+
 
 class HomeFragment : Fragment() {
 
-    private lateinit var tvGreeting: TextView
-    private lateinit var rvPlanner: RecyclerView
-    private lateinit var todayWorkout: TextView
-    private lateinit var todayCalories: TextView
-    private lateinit var todayWater: TextView
-    private lateinit var tvPlannerMore: TextView
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Ambil ID dari layout baru
-        tvGreeting = view.findViewById(R.id.tvGreeting)
-        rvPlanner = view.findViewById(R.id.rvPlanner)
-        tvPlannerMore = view.findViewById(R.id.tvPlannerMore)
-
-        todayWorkout = view.findViewById(R.id.workout_value)
-        todayCalories = view.findViewById(R.id.calories_value)
-        todayWater = view.findViewById(R.id.water_value)
-
         // Personalized greeting
-        tvGreeting.text = getGreetingMessage()
+        binding.tvWelcome.text = getGreetingMessage()
 
         // Tombol Planner → pindah ke Planner Page (belum dibuat)
-        tvPlannerMore.setOnClickListener {
-            // nanti diarahkan ke halaman planner
+        binding.tvSeeMore.setOnClickListener {
+            Toast.makeText(context, "Planner Page Coming Soon!", Toast.LENGTH_SHORT).show()
         }
 
         // Quick navigation examples:
-        todayWorkout.setOnClickListener {
-            startActivity(Intent(requireContext(), WorkoutPlanActivity::class.java))
-        }
-
-        todayCalories.setOnClickListener {
+        // Note: You should ideally navigate to other fragments, not start new activities if they are part of the same flow.
+        binding.mainCard.setOnClickListener {
             startActivity(Intent(requireContext(), BmiActivity::class.java))
         }
 
-        todayWater.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.frag_container, HabitTrackerFragment())
-                .addToBackStack(null)
-                .commit()
+        binding.rvNutritionists.setOnClickListener { // Assuming you want to navigate from here
+            startActivity(Intent(requireContext(), WorkoutPlanActivity::class.java))
         }
 
-        // Planner list (dummy dulu)
-        setupDummyPlanner()
     }
 
     private fun getGreetingMessage(): String {
@@ -80,6 +62,11 @@ class HomeFragment : Fragment() {
 
     private fun setupDummyPlanner() {
         // Nanti diisi adapter RecyclerView untuk daftar planner
-        // rvPlanner.adapter = PlannerAdapter(...)
+        // binding.rvNutritionists.adapter = ...
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

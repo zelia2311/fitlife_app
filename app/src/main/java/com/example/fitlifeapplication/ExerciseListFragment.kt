@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fitlifeapplication.data.Exercise
-import com.example.fitlifeapplication.data.MuscleGroup
 import com.example.fitlifeapplication.databinding.FragmentExerciseListBinding
 
 class ExerciseListFragment : Fragment() {
@@ -29,16 +28,19 @@ class ExerciseListFragment : Fragment() {
 
         // 1. Create a sample list of exercises
         val exercises = listOf(
-            Exercise("Bench Press", MuscleGroup.CHEST),
-            Exercise("Overhead Press", MuscleGroup.SHOULDERS),
-            Exercise("Bicep Curls", MuscleGroup.SHOULDERS), // Biceps are often worked with shoulders/back
-            Exercise("Pull-ups", MuscleGroup.SHOULDERS),    // Back and biceps
-            Exercise("Squats", MuscleGroup.CHEST),         // Legs, but using CHEST for demo
-            Exercise("Deadlifts", MuscleGroup.SHOULDERS)  // Full body, using SHOULDERS for demo
+            Exercise("Bench Press", 3, 10, 100, "", ""),
+            Exercise("Overhead Press", 3, 10, 70, "", ""),
+            Exercise("Bicep Curls", 3, 10, 30, "", ""), // Biceps are often worked with shoulders/back
+            Exercise("Pull-ups", 3, 10, null, "", ""),    // Back and biceps
+            Exercise("Squats", 3, 10, 150, "", ""),         // Legs, but using CHEST for demo
+            Exercise("Deadlifts", 3, 10, 200, "", "")  // Full body, using SHOULDERS for demo
         )
 
         // 2. Create and set up the adapter
-        val exerciseAdapter = ExerciseAdapter(exercises)
+        val exerciseAdapter = ExerciseAdapter(exercises) { exercise ->
+            // Handle exercise click
+            Toast.makeText(context, "Clicked on ${exercise.name}", Toast.LENGTH_SHORT).show()
+        }
         binding.exerciseRecycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = exerciseAdapter

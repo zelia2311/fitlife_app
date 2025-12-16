@@ -5,46 +5,45 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitlifeapplication.databinding.ActivityRegisterBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    private lateinit var sessionManager: SessionManager
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sessionManager = SessionManager(this)
+        auth = FirebaseAuth.getInstance()
 
         binding.btnRegister.setOnClickListener {
             doRegister()
         }
-
-        binding.tvGoLogin.setOnClickListener {
-            finish()
-        }
     }
 
     private fun doRegister() {
-        val name = binding.etName.text?.toString()?.trim() ?: ""
-        val email = binding.etEmailReg.text?.toString()?.trim() ?: ""
-        val password = binding.etPasswordReg.text?.toString()?.trim() ?: ""
+        val name = binding.etName.text.toString().trim()
+        val email = binding.etEmail.text.toString().trim()
+        val password = binding.etPassword.text.toString().trim()
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Simulate user registration and generate a dummy token
-        val dummyToken = "token_for_${email}"
-        sessionManager.createLoginSession(dummyToken)
-
-        Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
-
-        // Go to MainActivity
-        goToMainActivity()
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
+                    goToMainActivity()
+                } else {
+                    Toast.makeText(baseContext, "Authentication failed: ${task.exception?.message}",
+                        Toast.LENGTH_LONG).show()
+                }
+            }
     }
 
     private fun goToMainActivity() {

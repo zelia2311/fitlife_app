@@ -47,7 +47,7 @@ class MealSuggestionAdapter(private val meals: List<Meal>) : RecyclerView.Adapte
             if (placeholderId != 0) {
                 binding.ivMealImage.setImageResource(placeholderId)
             } else {
-                binding.ivMealImage.setImageResource(R.drawable.ic_onboard_food)
+                binding.ivMealImage.setImageResource(R.drawable.placeholder_meal)
             }
         }
     }

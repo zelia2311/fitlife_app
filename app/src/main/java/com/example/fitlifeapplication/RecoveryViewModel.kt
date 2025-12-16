@@ -22,7 +22,7 @@ class RecoveryViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             val states = mutableMapOf<MuscleGroup, RecoveryState>()
             // Menggunakan .entries yang lebih modern dan efisien
-            for (muscleGroup in MuscleGroup.entries) {
+            for (muscleGroup in MuscleGroup.values()) {
                 val lastWorkout = db.historyDao().getLastWorkoutForMuscleGroup(muscleGroup.name)
                 states[muscleGroup] = getRecoveryState(lastWorkout?.timestamp)
             }

@@ -40,7 +40,7 @@ class OnboardingActivity : AppCompatActivity() {
                     binding.btnNext.setImageResource(R.drawable.ic_arrow_forward)
                 }
             }
-        })
+            })
 
         binding.btnNext.setOnClickListener {
             if (binding.viewPager.currentItem == adapter.itemCount - 1) {

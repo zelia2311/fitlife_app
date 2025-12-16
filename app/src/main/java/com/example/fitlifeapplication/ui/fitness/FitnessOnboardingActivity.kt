@@ -14,7 +14,7 @@ class FitnessOnboardingActivity : AppCompatActivity() {
         binding = ActivityFitnessOnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnGetStarted.setOnClickListener {
+        binding.button.setOnClickListener {
             val intent = Intent(this, FitnessDashboardActivity::class.java)
             startActivity(intent)
             finish() // Optional: finish this activity so user can't go back to it

@@ -5,24 +5,23 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.fitlifeapplication.databinding.ActivityWorkoutPlanBinding
 
 class WorkoutPlanActivity : AppCompatActivity() {
 
-    private lateinit var rv: RecyclerView
+    private lateinit var binding: ActivityWorkoutPlanBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_workout_plan)
-
-        rv = findViewById(R.id.rvPlan)
+        binding = ActivityWorkoutPlanBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val bmi = intent.getDoubleExtra("bmi_value", 22.0)
         val category = BmiManager.getCategory(bmi)
         val plan = BmiManager.getPlanFor(category)
 
-        rv.layoutManager = LinearLayoutManager(this)
-        rv.adapter = PlanAdapter(plan, object : PlanAdapter.OnStartClick {
+        binding.rvPlan.layoutManager = LinearLayoutManager(this)
+        binding.rvPlan.adapter = PlanAdapter(plan, object : PlanAdapter.OnStartClick {
             override fun onStart(v: View) {
                 val exercise = v.tag as Array<String>
                 val intent = Intent(this@WorkoutPlanActivity, WorkoutPlayerActivity::class.java)

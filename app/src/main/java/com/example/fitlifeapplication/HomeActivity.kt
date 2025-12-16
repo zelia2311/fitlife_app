@@ -162,3 +162,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 }
+
+fun HealthConnectClient.Companion.isProviderAvailable(activity: HomeActivity): Boolean {
+    return TODO("Provide the return value")
+}

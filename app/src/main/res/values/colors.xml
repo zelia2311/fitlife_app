@@ -45,4 +45,8 @@
     <color name="yellow">#FDD835</color>
     <color name="green">#43A047</color>
 
+    <!-- Missing Colors -->
+    <color name="gray_400">#BDBDBD</color>
+    <color name="gray_500">#9E9E9E</color>
+
 </resources>
