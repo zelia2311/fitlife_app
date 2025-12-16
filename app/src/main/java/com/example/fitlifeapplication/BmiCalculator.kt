@@ -2,7 +2,7 @@ package com.example.fitlifeapplication.logic
 
 object BmiCalculator {
 
-    enum class Category { UNDERWEIGHT, NORMAL, OVERWEIGHT, OBESE }
+    enum class Category { UNDERWEIGHT, OPTIMAL, OVERWEIGHT, OBESE }
 
     fun calculateBmi(weightKg: Float, heightCm: Float): Float {
         val heightM = heightCm / 100f
@@ -12,7 +12,7 @@ object BmiCalculator {
     fun getCategory(bmi: Float): Category =
         when {
             bmi < 18.5f -> Category.UNDERWEIGHT
-            bmi < 25f -> Category.NORMAL
+            bmi < 25f -> Category.OPTIMAL
             bmi < 30f -> Category.OVERWEIGHT
             else -> Category.OBESE
         }
@@ -37,7 +37,7 @@ object BmiCalculator {
                 ExerciseItem("Squat", "3 x 15"),
                 ExerciseItem("Plank", "45 sec")
             )
-            Category.NORMAL -> listOf(
+            Category.OPTIMAL -> listOf(
                 ExerciseItem("Jogging", "20 min"),
                 ExerciseItem("Bodyweight Circuit", "3 sets"),
                 ExerciseItem("Crunches", "20 reps")
@@ -54,14 +54,14 @@ object BmiCalculator {
 
         val workoutType = when (category) {
             Category.UNDERWEIGHT -> "Strength & Hypertrophy"
-            Category.NORMAL -> "Balanced Training"
+            Category.OPTIMAL -> "Balanced Training"
             Category.OVERWEIGHT -> "Cardio Focus"
             Category.OBESE -> "Low Impact Starter"
         }
 
         val diet = when (category) {
             Category.UNDERWEIGHT -> "High Calorie, High Protein"
-            Category.NORMAL -> "Balanced Meal"
+            Category.OPTIMAL -> "Balanced Meal"
             Category.OVERWEIGHT -> "Low Carb, High Fiber"
             Category.OBESE -> "High Protein, Controlled Carb"
         }

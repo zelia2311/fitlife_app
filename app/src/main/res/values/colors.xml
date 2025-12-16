@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="blue_primary">#FF3700B3</color>
     <color name="mint_primary">#66D298</color>
+    <color name="green_primary">#66D298</color>
     <color name="navy_primary">#1D2A44</color>
     <color name="accent_peach">#FCE8D5</color>
     <color name="bg_light">#F8F9FA</color>
@@ -19,4 +22,27 @@
     <!-- 🎨 Tambahan wajib untuk Home Dashboard -->
     <color name="orange">#FF914D</color>
     <color name="blue">#6A82FB</color>
+    <color name="blue_secondary">#11193A</color>
+
+    <!-- 🎨 Modern Purple for Fitness Theme -->
+    <color name="modern_purple">#8A2BE2</color>
+    <color name="modern_purple_light">#9370DB</color>
+
+    <!-- 🎨 Pastel Palette for Meal Cards -->
+    <color name="card_bg_1">#E0F7FA</color> <!-- Light Cyan -->
+    <color name="card_bg_2">#FFF9C4</color> <!-- Light Yellow -->
+    <color name="card_bg_3">#FCE4EC</color> <!-- Light Pink -->
+    <color name="card_bg_4">#E8F5E9</color> <!-- Light Green -->
+
+    <!-- New Login/Sign Up Colors -->
+    <color name="login_background_blue">#448AFF</color>
+    <color name="light_green_button">#69F0AE</color>
+    <color name="edittext_background_transparent">#4DFFFFFF</color>
+    <color name="dark_blue_button">#1D2A44</color>
+
+    <!-- Recovery Status Colors -->
+    <color name="red">#E53935</color>
+    <color name="yellow">#FDD835</color>
+    <color name="green">#43A047</color>
+
 </resources>

@@ -9,11 +9,14 @@ import com.example.fitlifeapplication.databinding.ActivityRegisterBinding
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sessionManager = SessionManager(this)
 
         binding.btnRegister.setOnClickListener {
             doRegister()
@@ -34,12 +37,19 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
-        // Untuk saat ini kita cuma simulasi "registrasi berhasil"
-        Toast.makeText(this, "Account created, please login", Toast.LENGTH_SHORT).show()
+        // Simulate user registration and generate a dummy token
+        val dummyToken = "token_for_${email}"
+        sessionManager.createLoginSession(dummyToken)
 
-        // Kembali ke Login dengan email terisi otomatis
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.putExtra("email_prefill", email)
+        Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
+
+        // Go to MainActivity
+        goToMainActivity()
+    }
+
+    private fun goToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }

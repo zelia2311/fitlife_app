@@ -1,30 +1,35 @@
-package com.example.fitlifeapplication.data
+package com.example.fitlifeapplication
 
 import android.content.Context
 import android.content.SharedPreferences
 
 class SessionManager(context: Context) {
 
-    private val prefs: SharedPreferences =
-        context.getSharedPreferences("fitlife_session", Context.MODE_PRIVATE)
+    private val prefs: SharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+    private val editor: SharedPreferences.Editor = prefs.edit()
 
     companion object {
-        private const val KEY_IS_LOGGED_IN = "is_logged_in"
-        private const val KEY_EMAIL = "email"
+        private const val PREF_NAME = "FitLifeSession"
+        private const val KEY_IS_LOGGED_IN = "isLoggedIn"
+        private const val KEY_AUTH_TOKEN = "authToken"
     }
 
-    fun setLogin(email: String) {
-        prefs.edit()
-            .putBoolean(KEY_IS_LOGGED_IN, true)
-            .putString(KEY_EMAIL, email)
-            .apply()
+    fun createLoginSession(authToken: String) {
+        editor.putBoolean(KEY_IS_LOGGED_IN, true)
+        editor.putString(KEY_AUTH_TOKEN, authToken)
+        editor.apply()
     }
 
-    fun isLoggedIn(): Boolean = prefs.getBoolean(KEY_IS_LOGGED_IN, false)
+    fun isLoggedIn(): Boolean {
+        return prefs.getBoolean(KEY_IS_LOGGED_IN, false)
+    }
 
-    fun getEmail(): String? = prefs.getString(KEY_EMAIL, null)
+    fun getAuthToken(): String? {
+        return prefs.getString(KEY_AUTH_TOKEN, null)
+    }
 
-    fun logout() {
-        prefs.edit().clear().apply()
+    fun logoutUser() {
+        editor.clear()
+        editor.apply()
     }
 }

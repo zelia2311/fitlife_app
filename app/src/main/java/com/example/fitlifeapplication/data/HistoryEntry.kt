@@ -10,5 +10,6 @@ data class HistoryEntry(
     val exerciseName: String,
     val duration: Int,
     val calories: Int,
-    val timestamp: Long
+    val timestamp: Long,
+    val muscleGroup: String // Added this field
 )

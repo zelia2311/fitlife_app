@@ -3,47 +3,46 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="@drawable/bg_onboard_gradient">
+    android:layout_height="match_parent">
 
-    <!-- Illustation -->
     <ImageView
-        android:id="@+id/imgIllustration1"
-        android:layout_width="260dp"
-        android:layout_height="260dp"
-        android:src="@drawable/ic_onboard_welcome"
-        android:layout_marginTop="32dp"
-        android:contentDescription="Welcome illustration"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_onboard_yoga" />
 
-    <!-- Title -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_onboard_gradient" />
+
     <TextView
         android:id="@+id/tvTitle1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Welcome to FitLife"
-        android:textSize="28sp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/onboarding_welcome_title"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@color/navy_primary"
-        app:layout_constraintTop_toBottomOf="@id/imgIllustration1"
+        app:layout_constraintBottom_toTopOf="@+id/tvSubtitle1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="26dp"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Subtitle -->
     <TextView
         android:id="@+id/tvSubtitle1"
-        android:layout_width="280dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Mulai perjalanan hidup sehatmu dengan rekomendasi yang dipersonalisasi."
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="120dp"
+        android:text="@string/onboarding_welcome_subtitle"
+        android:textColor="@android:color/white"
         android:textSize="16sp"
-        android:textColor="@color/text_secondary"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

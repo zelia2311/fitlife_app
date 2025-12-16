@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.fitlifeapplication">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -10,26 +9,37 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitLife">
 
-        <!-- SPLASH SCREEN = LAUNCHER -->
+        <!-- LOGIN BECOMES THE NEW LAUNCHER -->
         <activity
-            android:name=".SplashActivity"
+            android:name=".LoginActivity"
             android:exported="true">
-
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+
+        <activity
+            android:name=".SignInActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="false" />
+
+        <!-- PREVIOUS LAUNCHER (now regular activity) -->
+        <activity
+            android:name=".ui.fitness.FitnessOnboardingActivity"
+            android:exported="false" />
+
+        <!-- PREVIOUS LAUNCHER (now regular activity) -->
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="false"/>
 
         <!-- Onboarding (Tidak jadi launcher) -->
         <activity
             android:name=".OnboardingActivity"
-            android:exported="false" />
-
-        <!-- LOGIN -->
-        <activity
-            android:name=".LoginActivity"
             android:exported="false" />
 
         <!-- HOME (Main App) -->
@@ -40,7 +50,23 @@
         <!-- FITUR-FITUR LAIN -->
         <activity android:name=".WorkoutPlanActivity" android:exported="false" />
         <activity android:name=".WorkoutPlayerActivity" android:exported="false" />
-        <activity android:name=".BmiActivity" android:exported="false" />
+        <activity android:name=".ui.bmi.BmiCalculatorActivity" android:exported="false" />
+        <activity android:name=".ui.bmi.NewWeightActivity" android:exported="false" />
+        <activity android:name=".ui.meal.MealSuggestionActivity" android:exported="false" />
+        <activity android:name=".NutritionPlanActivity" android:exported="false" />
+        <activity android:name=".MealDetailActivity" android:exported="false" />
+
+        <!-- NEW FITNESS ACTIVITIES -->
+        <activity android:name=".ui.fitness.FitnessDashboardActivity" android:exported="false" />
+        <activity android:name=".ui.fitness.FitnessAnalysisActivity" android:exported="false" />
+
+        <!-- NEW HOME DASHBOARD ACTIVITIES -->
+        <activity android:name=".HomeActivity" android:exported="false" />
+        <activity android:name=".StepsActivity" android:exported="false" />
+        <activity android:name=".SleepActivity" android:exported="false" />
+        <activity android:name=".HeartActivity" android:exported="false" />
+        <activity android:name=".KcalActivity" android:exported="false" />
+        <activity android:name=".DailyMealsActivity" android:exported="false" />
 
     </application>
 

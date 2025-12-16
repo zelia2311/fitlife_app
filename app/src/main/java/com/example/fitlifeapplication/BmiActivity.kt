@@ -1,107 +1,83 @@
-package com.example.fitlifeapplication.ui.bmi
+package com.example.fitlifeapplication
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.view.animation.DecelerateInterpolator
 import android.widget.Button
-import android.widget.ImageView
+import android.widget.EditText
+import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.fitlifeapplication.R
 import com.example.fitlifeapplication.logic.BmiCalculator
-import com.google.android.material.card.MaterialCardView
 
 class BmiActivity : AppCompatActivity() {
 
-    private lateinit var etHeight: TextView
-    private lateinit var etWeight: TextView
-    private lateinit var tvBmiValue: TextView
-    private lateinit var tvCategory: TextView
-    private lateinit var tvRecommendation: TextView
-    private lateinit var btnCalc: Button
-    private lateinit var cardResult: MaterialCardView
-    private lateinit var imgNeedle: ImageView
-
-    private var resultShownOnce = false
+    private var height: Int = 161
+    private var weight: Int = 87
+    private var age: Int = 29
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_bmi)
-
-        etHeight = findViewById(R.id.etHeight)
-        etWeight = findViewById(R.id.etWeight)
-        tvBmiValue = findViewById(R.id.tvBmiValue)
-        tvCategory = findViewById(R.id.tvCategory)
-        tvRecommendation = findViewById(R.id.tvRecommendation)
-        btnCalc = findViewById(R.id.btnCalc)
-        cardResult = findViewById(R.id.cardResult)
-        imgNeedle = findViewById(R.id.imgNeedle)
-
-        // hide result card before animation
-        cardResult.alpha = 0f
-        cardResult.translationY = 50f
-
-        // initial needle rotation (far left)
-        imgNeedle.rotation = -90f
-
-        btnCalc.setOnClickListener { calculateAndAnimate() }
+        showStartScreen()
     }
 
-    private fun calculateAndAnimate() {
-        val height = etHeight.text.toString().toFloatOrNull()
-        val weight = etWeight.text.toString().toFloatOrNull()
+    private fun showStartScreen() {
+        setContentView(R.layout.activity_bmi_start)
+        findViewById<Button>(R.id.start_button).setOnClickListener {
+            showInputScreen()
+        }
+    }
 
-        if (height == null || height <= 0f || weight == null || weight <= 0f) {
-            tvCategory.text = getString(R.string.invalid_input)
-            return
+    private fun showInputScreen() {
+        setContentView(R.layout.activity_bmi_input)
+
+        val heightPickerM = findViewById<NumberPicker>(R.id.height_picker_m)
+        val heightPickerCm = findViewById<NumberPicker>(R.id.height_picker_cm)
+        val weightValue = findViewById<EditText>(R.id.weight_value)
+        val ageValue = findViewById<EditText>(R.id.age_value)
+
+        // Height Picker setup
+        heightPickerM.minValue = 1
+        heightPickerM.maxValue = 2
+        heightPickerM.value = height / 100
+
+        heightPickerCm.minValue = 0
+        heightPickerCm.maxValue = 99
+        heightPickerCm.value = height % 100
+
+        heightPickerM.setOnValueChangedListener { _, _, newVal ->
+            height = newVal * 100 + heightPickerCm.value
+        }
+        heightPickerCm.setOnValueChangedListener { _, _, newVal ->
+            height = heightPickerM.value * 100 + newVal
         }
 
-        val bmi = BmiCalculator.calculateBmi(weight, height)
-        val category = BmiCalculator.getCategory(bmi)
-        val rec = BmiCalculator.getRecommendations(category)
+        // Set initial values for EditText
+        weightValue.setText(weight.toString())
+        ageValue.setText(age.toString())
 
-        tvBmiValue.text = String.format("%.1f", bmi)
+        findViewById<Button>(R.id.calculate_button).setOnClickListener {
+            weight = weightValue.text.toString().toIntOrNull() ?: weight
+            age = ageValue.text.toString().toIntOrNull() ?: age
 
-        val categoryText = when (category) {
+            val bmi = BmiCalculator.calculateBmi(weight.toFloat(), height.toFloat() / 100)
+            val category = BmiCalculator.getCategory(bmi)
+            showResultScreen(bmi, category)
+        }
+    }
+
+    private fun showResultScreen(bmi: Float, category: BmiCalculator.Category) {
+        setContentView(R.layout.activity_bmi_result)
+
+        findViewById<TextView>(R.id.bmi_value).text = String.format("%.1f", bmi)
+        findViewById<TextView>(R.id.bmi_category).text = when (category) {
             BmiCalculator.Category.UNDERWEIGHT -> "Underweight"
-            BmiCalculator.Category.NORMAL -> "Normal"
+            BmiCalculator.Category.OPTIMAL -> "Optimal"
             BmiCalculator.Category.OVERWEIGHT -> "Overweight"
             BmiCalculator.Category.OBESE -> "Obese"
         }
-        tvCategory.text = categoryText
+        findViewById<TextView>(R.id.height_weight_info).text = "Height: $height cm | Weight: $weight kg"
 
-        tvRecommendation.text =
-            "Workout: ${rec.workoutType}\nDiet: ${rec.diet}"
-
-        animateGauge(bmi)
-        animateResultCardIfNeeded()
-    }
-
-    private fun animateGauge(bmi: Float) {
-        val clamped = bmi.coerceIn(10f, 40f)
-        val fraction = (clamped - 10f) / 30f
-        val targetAngle = -90f + (fraction * 180f)
-
-        val animator = ObjectAnimator.ofFloat(
-            imgNeedle,
-            "rotation",
-            imgNeedle.rotation,
-            targetAngle
-        )
-        animator.duration = 800
-        animator.interpolator = DecelerateInterpolator()
-        animator.start()
-    }
-
-    private fun animateResultCardIfNeeded() {
-        if (!resultShownOnce) {
-            resultShownOnce = true
-            cardResult.animate()
-                .alpha(1f)
-                .translationY(0f)
-                .setDuration(500)
-                .setInterpolator(DecelerateInterpolator())
-                .start()
+        findViewById<Button>(R.id.retry_button).setOnClickListener {
+            showInputScreen()
         }
     }
 }
