@@ -1,6 +1,7 @@
 package com.example.fitlifeapplication.ui.bmi
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -73,6 +74,13 @@ class BmiCalculatorActivity : AppCompatActivity() {
         if (userHeightCm > 0 && weight > 0) {
             val heightInMeters = userHeightCm / 100
             val bmi = weight / (heightInMeters * heightInMeters)
+
+            // Save BMI to SharedPreferences
+            val sharedPref = getSharedPreferences("fitlife_prefs", Context.MODE_PRIVATE)
+            with(sharedPref.edit()) {
+                putFloat("latest_bmi", bmi)
+                apply()
+            }
 
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.CEILING

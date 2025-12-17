@@ -1,6 +1,5 @@
 package com.example.fitlifeapplication
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -46,12 +45,20 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (HealthConnectClient.isProviderAvailable(this)) {
-            healthConnectClient = HealthConnectClient.getOrCreate(this)
-            checkAndRequestPermissions()
-        } else {
+        val availabilityStatus = HealthConnectClient.getSdkStatus(this)
+        if (availabilityStatus == HealthConnectClient.SDK_UNAVAILABLE) {
             // Handle Health Connect not available
+            // You can optionally direct the user to the Play Store
+            return
         }
+        if (availabilityStatus == HealthConnectClient.SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED) {
+            // Optionally redirect to the Play Store to update Health Connect
+            return
+        }
+
+        healthConnectClient = HealthConnectClient.getOrCreate(this)
+        checkAndRequestPermissions()
+
 
         binding.stepsCard.setOnClickListener {
             startActivity(Intent(this, StepsActivity::class.java))
@@ -161,8 +168,4 @@ class HomeActivity : AppCompatActivity() {
             // Handle exception
         }
     }
-}
-
-fun HealthConnectClient.Companion.isProviderAvailable(activity: HomeActivity): Boolean {
-    return TODO("Provide the return value")
 }

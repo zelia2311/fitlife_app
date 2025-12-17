@@ -2,15 +2,22 @@ package com.example.fitlifeapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitlifeapplication.databinding.ActivityNutritionPlanBinding
 import com.example.fitlifeapplication.databinding.ItemMealCardBinding
-import com.google.android.material.tabs.TabLayout
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class Meal(
+    val name: String,
+    val calories: Int,
+    val description: String
+) : Parcelable
 
 class NutritionPlanActivity : AppCompatActivity() {
 
@@ -32,7 +39,6 @@ class NutritionPlanActivity : AppCompatActivity() {
         binding.mealTabs.addTab(binding.mealTabs.newTab().setText("Lunch"))
         binding.mealTabs.addTab(binding.mealTabs.newTab().setText("Dinner"))
 
-        // Handle tab selection
         binding.mealTabs.getTabAt(1)?.select() // Select Lunch by default
     }
 
@@ -41,10 +47,16 @@ class NutritionPlanActivity : AppCompatActivity() {
     }
 
     private fun setupMealCards() {
+        val dummyMeals = listOf(
+            Meal("Oatmeal", 350, "Healthy oatmeal with fruits."),
+            Meal("Chicken Salad", 450, "Grilled chicken salad with fresh vegetables."),
+            Meal("Salmon and Veggies", 550, "Baked salmon with roasted vegetables.")
+        )
+
         binding.mealsRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        binding.mealsRecyclerView.adapter = DummyMealAdapter { meal ->
+        binding.mealsRecyclerView.adapter = MealAdapter(dummyMeals) { meal ->
             val intent = Intent(this, MealDetailActivity::class.java)
-            // TODO: Pass meal data to the detail activity
+            intent.putExtra("MEAL_DATA", meal)
             startActivity(intent)
         }
     }
@@ -54,18 +66,28 @@ class NutritionPlanActivity : AppCompatActivity() {
     }
 }
 
-// Dummy Adapter for Meal Cards
-class DummyMealAdapter(private val onClick: (Any) -> Unit) : RecyclerView.Adapter<DummyMealAdapter.ViewHolder>() {
+class MealAdapter(
+    private val meals: List<Meal>,
+    private val onClick: (Meal) -> Unit
+) : RecyclerView.Adapter<MealAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemMealCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.setOnClickListener { onClick(Any()) }
+        val meal = meals[position]
+        holder.bind(meal)
+        holder.itemView.setOnClickListener { onClick(meal) }
     }
 
-    override fun getItemCount(): Int = 3 // Dummy count
+    override fun getItemCount(): Int = meals.size
 
-    class ViewHolder(binding: ItemMealCardBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(private val binding: ItemMealCardBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(meal: Meal) {
+            // TODO: Bind meal data to the views in item_meal_card.xml
+            // e.g., binding.mealName.text = meal.name
+        }
+    }
 }

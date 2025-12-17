@@ -1,5 +1,6 @@
 package com.example.fitlifeapplication
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.viewModels
@@ -18,46 +19,46 @@ class WorkoutPlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_workout_player)
 
+        val exercise = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("exercise", Exercise::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra("exercise")
+        }
+
         setupRecyclerView()
         setupObservers()
         setupClickListeners()
+
+        if (exercise != null) {
+            // Mengirim daftar yang hanya berisi satu latihan ke ViewModel
+            workoutViewModel.setExerciseList(listOf(exercise))
+        }
     }
 
     private fun setupRecyclerView() {
         val recyclerView: RecyclerView = findViewById(R.id.rvExercises)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        exerciseAdapter = ExerciseAdapter(emptyList()) { exercise ->
-            workoutViewModel.onExerciseClicked(exercise)
-            // Di sini Anda bisa navigasi ke layar detail latihan jika perlu
+        exerciseAdapter = ExerciseAdapter(emptyList()) { selectedExercise ->
+            workoutViewModel.onExerciseClicked(selectedExercise)
         }
         recyclerView.adapter = exerciseAdapter
     }
 
     private fun setupObservers() {
-        // Mengamati perubahan nama pengguna
         val userPlanButton: MaterialButton = findViewById(R.id.btnUserPlan)
         workoutViewModel.userName.observe(this, Observer { name ->
             userPlanButton.text = "$name'S PLAN >"
         })
 
-        // Mengamati perubahan daftar latihan
+        // Observer ini sekarang akan menerima daftar dari ViewModel dan memperbarui UI
         workoutViewModel.exerciseList.observe(this, Observer { exercises ->
             exerciseAdapter.updateData(exercises)
         })
 
-        // Mengamati data yang selesai untuk navigasi (contoh)
         workoutViewModel.completedWorkoutData.observe(this, Observer { completedExercises ->
-            // Data siap dikirim!
-            // Di sini Anda akan menavigasi ke RecoveryFragment
-            // dan meneruskan data jika diperlukan (meskipun ViewModel sudah cukup)
             println("Workout finished! Navigating to recovery with ${completedExercises.size} exercises.")
-
-            // Contoh navigasi (ganti dengan implementasi navigasi Anda, misal Jetpack Navigation)
-            // val recoveryFragment = RecoveryFragment()
-            // supportFragmentManager.beginTransaction()
-            //     .replace(R.id.fragment_container, recoveryFragment)
-            //     .addToBackStack(null)
-            //     .commit()
+            // Implementasi navigasi ke RecoveryFragment
         })
     }
 

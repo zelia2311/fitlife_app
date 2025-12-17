@@ -10,8 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.fitlifeapplication.databinding.FragmentHomeBinding
-import com.example.fitlifeapplication.BmiActivity
-import com.example.fitlifeapplication.WorkoutPlanActivity
+import com.example.fitlifeapplication.ui.bmi.BmiCalculatorActivity
 
 
 class HomeFragment : Fragment() {
@@ -39,14 +38,14 @@ class HomeFragment : Fragment() {
             Toast.makeText(context, "Planner Page Coming Soon!", Toast.LENGTH_SHORT).show()
         }
 
-        // Quick navigation examples:
-        // Note: You should ideally navigate to other fragments, not start new activities if they are part of the same flow.
+        // Navigate to BMI Calculator
         binding.mainCard.setOnClickListener {
-            startActivity(Intent(requireContext(), BmiActivity::class.java))
+            //  startActivity(Intent(requireContext(), BmiCalculatorActivity::class.java))
+            Toast.makeText(requireContext(), "BMI Calculator coming soon!", Toast.LENGTH_SHORT).show()
         }
 
-        binding.rvNutritionists.setOnClickListener { // Assuming you want to navigate from here
-            startActivity(Intent(requireContext(), WorkoutPlanActivity::class.java))
+        binding.rvNutritionists.setOnClickListener { 
+            findNavController().navigate(R.id.nav_workout)
         }
 
     }

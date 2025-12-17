@@ -63,7 +63,7 @@ dependencies {
     kapt(libs.room.compiler)
 
     // Health Connect
-    implementation("androidx.health.connect:connect-client:1.1.0")
+    implementation("androidx.health.connect:connect-client:1.2.0-alpha02")
 
     // Lifecycle & ViewModel KTX
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")

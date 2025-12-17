@@ -2,7 +2,6 @@ package com.example.fitlifeapplication
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitlifeapplication.databinding.ActivityWorkoutPlanBinding
@@ -18,15 +17,27 @@ class WorkoutPlanActivity : AppCompatActivity() {
 
         val bmi = intent.getDoubleExtra("bmi_value", 22.0)
         val category = BmiManager.getCategory(bmi)
-        val plan = BmiManager.getPlanFor(category)
+
+        // Membuat daftar Exercise lengkap dengan data dari BmiManager dan beberapa placeholder
+        // TODO: Ganti placeholder (sets, reps, imageUrl, dll.) dengan data yang sebenarnya jika tersedia
+        val plan = BmiManager.getPlanFor(category).map {
+            Exercise(
+                name = it[0],
+                // Info dari BmiManager (it[1]) bisa dimasukkan ke deskripsi atau di-parse
+                // Untuk saat ini, kita gunakan nilai default untuk set dan repetisi
+                sets = 3,
+                reps = 12,
+                imageUrl = "img_workout_placeholder", // Placeholder drawable
+                bodyPartImageUrl = "ic_workout" // Placeholder drawable
+            )
+        }
 
         binding.rvPlan.layoutManager = LinearLayoutManager(this)
         binding.rvPlan.adapter = PlanAdapter(plan, object : PlanAdapter.OnStartClick {
-            override fun onStart(v: View) {
-                val exercise = v.tag as Array<String>
+            override fun onStart(exercise: Exercise) {
                 val intent = Intent(this@WorkoutPlanActivity, WorkoutPlayerActivity::class.java)
-                intent.putExtra("exercise_name", exercise[0])
-                intent.putExtra("exercise_info", exercise[1])
+                // Mengirim seluruh objek Exercise ke aktivitas berikutnya
+                intent.putExtra("exercise", exercise)
                 startActivity(intent)
             }
         })
