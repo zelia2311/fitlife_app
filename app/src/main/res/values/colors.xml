@@ -49,4 +49,10 @@
     <color name="gray_400">#BDBDBD</color>
     <color name="gray_500">#9E9E9E</color>
 
+    <!-- Login Screen -->
+    <color name="login_background">#1D2A44</color>
+    <color name="login_button">#66D298</color>
+    <color name="login_text_hint">#A0FFFFFF</color>
+    <color name="login_text">#FFFFFF</color>
+
 </resources>

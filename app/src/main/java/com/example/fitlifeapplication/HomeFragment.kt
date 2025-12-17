@@ -5,13 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.fitlifeapplication.databinding.FragmentHomeBinding
-import com.example.fitlifeapplication.ui.bmi.BmiCalculatorActivity
+import com.example.fitlifeapplication.databinding.ItemQuickActionBinding
+import com.google.android.material.card.MaterialCardView
 
+data class QuickAction(val name: String, val iconRes: Int, val colorRes: Int, val onClick: () -> Unit)
 
 class HomeFragment : Fragment() {
 
@@ -30,38 +34,46 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Personalized greeting
-        binding.tvWelcome.text = getGreetingMessage()
+        setupQuickActions()
 
-        // Tombol Planner → pindah ke Planner Page (belum dibuat)
-        binding.tvSeeMore.setOnClickListener {
+        binding.tvSeeAll.setOnClickListener {
             Toast.makeText(context, "Planner Page Coming Soon!", Toast.LENGTH_SHORT).show()
         }
 
-        // Navigate to BMI Calculator
-        binding.mainCard.setOnClickListener {
-            //  startActivity(Intent(requireContext(), BmiCalculatorActivity::class.java))
-            Toast.makeText(requireContext(), "BMI Calculator coming soon!", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.rvNutritionists.setOnClickListener { 
+        binding.workoutCard.setOnClickListener { 
             findNavController().navigate(R.id.nav_workout)
         }
-
     }
 
-    private fun getGreetingMessage(): String {
-        val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
-        return when {
-            hour < 12 -> "Good Morning!"
-            hour < 18 -> "Good Afternoon!"
-            else -> "Good Evening!"
+    private fun setupQuickActions() {
+        val quickActions = listOf(
+            QuickAction("BMI", R.drawable.ic_bmi, R.color.blue) {
+                startActivity(Intent(requireContext(), BmiActivity::class.java))
+            },
+            QuickAction("Workout", R.drawable.ic_play_arrow, R.color.orange) {
+                findNavController().navigate(R.id.nav_workout)
+            },
+            QuickAction("Water", R.drawable.ic_water, R.color.modern_purple) {
+                Toast.makeText(context, "Track Water Coming Soon!", Toast.LENGTH_SHORT).show()
+            },
+            QuickAction("Plan", R.drawable.ic_plan, R.color.green_primary) {
+                Toast.makeText(context, "Meal Plan Coming Soon!", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        binding.quickActionsContainer.removeAllViews()
+        val inflater = LayoutInflater.from(context)
+
+        for (action in quickActions) {
+            val actionBinding = ItemQuickActionBinding.inflate(inflater, binding.quickActionsContainer, false)
+            
+            actionBinding.tvActionName.text = action.name
+            actionBinding.ivActionIcon.setImageResource(action.iconRes)
+            (actionBinding.actionCard as MaterialCardView).setCardBackgroundColor(ContextCompat.getColor(requireContext(), action.colorRes))
+            actionBinding.root.setOnClickListener { action.onClick() }
+            
+            binding.quickActionsContainer.addView(actionBinding.root)
         }
-    }
-
-    private fun setupDummyPlanner() {
-        // Nanti diisi adapter RecyclerView untuk daftar planner
-        // binding.rvNutritionists.adapter = ...
     }
 
     override fun onDestroyView() {
